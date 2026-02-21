@@ -18,7 +18,7 @@ return new class extends Migration
                 UPPER(TRIM(prod_cod)) AS sku,
                 LOWER(TRIM(prod_nome)) AS nome
             FROM produtos_base
-            WHERE prod_atv = 1
+            WHERE CAST(prod_atv AS INTEGER) = 1
         ");
 
         DB::statement("
