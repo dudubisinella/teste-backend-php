@@ -12,13 +12,21 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('precos_base', function (Blueprint $table) {
-            $table->id();
-            $table->string('sku');
-            $table->decimal('valor', 12, 2);
-            $table->boolean('ativo')->default(true);
-            $table->timestamps();
-
-            $table->index('sku');
+            $table->increments('preco_id');
+            $table->string('prc_cod_prod', 30)->nullable();
+            $table->text('prc_valor')->nullable();
+            $table->string('prc_moeda', 10)->nullable();
+            $table->text('prc_desc')->nullable();
+            $table->text('prc_acres')->nullable();
+            $table->text('prc_promo')->nullable();
+            $table->text('prc_dt_ini_promo')->nullable();
+            $table->text('prc_dt_fim_promo')->nullable();
+            $table->text('prc_dt_atual')->nullable();
+            $table->string('prc_origem', 50)->nullable();
+            $table->string('prc_tipo_cli', 30)->nullable();
+            $table->string('prc_vend_resp', 100)->nullable();
+            $table->text('prc_obs')->nullable();
+            $table->string('prc_status', 20)->nullable();
         });
     }
 

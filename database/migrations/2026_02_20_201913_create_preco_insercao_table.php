@@ -13,9 +13,18 @@ return new class extends Migration
     {
         Schema::create('preco_insercao', function (Blueprint $table) {
             $table->id();
-            $table->string('sku')->unique();
+
+            $table->string('sku', 30);
             $table->decimal('valor', 12, 2);
+
             $table->timestamps();
+
+            $table->foreign('sku')
+                ->references('sku')
+                ->on('produto_insercao')
+                ->onDelete('cascade');
+
+            $table->unique('sku');
         });
     }
 

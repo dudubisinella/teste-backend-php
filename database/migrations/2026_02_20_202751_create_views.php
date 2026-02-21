@@ -13,22 +13,28 @@ return new class extends Migration
     public function up(): void
     {
         DB::statement("
-        CREATE VIEW view_produtos AS
-        SELECT
-            LOWER(TRIM(nome)) AS nome,
-            UPPER(TRIM(sku)) AS sku
-        FROM produtos_base
-        WHERE ativo = 1
-    ");
+            CREATE VIEW view_produtos AS
+            SELECT
+                UPPER(TRIM(prod_cod)) AS sku,
+                LOWER(TRIM(prod_nome)) AS nome
+            FROM produtos_base
+            WHERE prod_atv = 1
+        ");
 
         DB::statement("
-        CREATE VIEW view_precos AS
-        SELECT
-            UPPER(TRIM(sku)) AS sku,
-            ROUND(valor, 2) AS valor
-        FROM precos_base
-        WHERE ativo = 1
-    ");
+            CREATE VIEW view_precos AS
+            SELECT
+                UPPER(TRIM(prc_cod_prod)) AS sku,
+                CASE
+                WHEN prc_valor LIKE '%,%' THEN
+                    REPLACE(REPLACE(TRIM(prc_valor), '.', ''), ',', '.')
+                ELSE
+                    TRIM(prc_valor)
+            END AS valor_raw
+            FROM precos_base
+            WHERE LOWER(TRIM(prc_status)) = 'ativo'
+            AND prc_valor NOT LIKE '%sem preço%'
+        ");
     }
 
     /**

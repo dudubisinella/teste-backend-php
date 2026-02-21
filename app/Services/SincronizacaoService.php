@@ -29,16 +29,23 @@ class SincronizacaoService
         $dados = DB::table('view_precos')->get();
 
         foreach ($dados as $item) {
-            DB::table('preco_insercao')->updateOrInsert(
-                ['sku' => $item->sku],
-                ['valor' => $item->valor]
-            );
+
+            $produtoExiste = DB::table('produto_insercao')
+                ->where('sku', $item->sku)
+                ->exists();
+
+            if ($produtoExiste) {
+                DB::table('preco_insercao')->updateOrInsert(
+                    ['sku' => $item->sku],
+                    ['valor' => $item->valor_raw]
+                );
+            }
         }
 
-        $skus = $dados->pluck('sku')->toArray();
+        $skusNaView = $dados->pluck('sku')->toArray();
 
         DB::table('preco_insercao')
-            ->whereNotIn('sku', $skus)
+            ->whereNotIn('sku', $skusNaView)
             ->delete();
     }
 }

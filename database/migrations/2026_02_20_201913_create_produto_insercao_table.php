@@ -13,9 +13,11 @@ return new class extends Migration
     {
         Schema::create('produto_insercao', function (Blueprint $table) {
             $table->id();
-            $table->string('sku')->unique();
-            $table->string('nome');
+            $table->string('sku', 30)->unique();
+            $table->string('nome', 150);
             $table->timestamps();
+
+            $table->index('sku');
         });
     }
 
