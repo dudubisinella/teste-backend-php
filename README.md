@@ -45,5 +45,6 @@ A API responde em **http://localhost:8000/api:**
 | `GET` | `/api/produtos-precos` | Retorna a listagem final paginada (Produto + Preço). |
 
 ## 🧪 Executando Testes
+
     ```bash
     docker compose exec app php artisan test
